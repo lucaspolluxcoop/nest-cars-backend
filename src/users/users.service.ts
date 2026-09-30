@@ -10,7 +10,7 @@ export class UsersService {
   async create(email: string, password: string) {
     const user = this.repo.create({ email, password })
 
-    await this.repo.save(user)
+    return await this.repo.save(user)
   }
 
   async findOne(id: number) {
