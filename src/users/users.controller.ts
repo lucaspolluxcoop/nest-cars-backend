@@ -38,6 +38,11 @@ export class UsersController {
     return await this.authService.signup(body.email, body.password)
   }
 
+  @Post('/signin')
+  signin(@Body() body: CreateUserDto) {
+    return this.authService.signIn(body.email, body.password)
+  }
+
   @Patch('/:id')
   async updateUser(@Param('id') id: string, @Body() body: UpdateUserDto) {
     return await this.usersService.update(parseInt(id), body)
