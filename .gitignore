@@ -52,6 +52,9 @@ lerna-debug.log*
 # SQLite database
 *.sqlite
 
+# Claude Code local settings (personal, not shared)
+.claude/settings.local.json
+
 # Runtime data
 pids
 *.pid
