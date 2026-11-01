@@ -7,6 +7,7 @@ import { User } from '../users/user.entity'
 import { ReportDto } from './dtos/report.dto'
 import { Serialize } from '../interceptors/serialize.interceptor'
 import { ApprovedReportDto } from './dtos/approved-report.dto'
+import { AdminGuard } from '../guards/admin.guard'
 
 @UseGuards(AuthGuard)
 @Controller('reports')
@@ -22,6 +23,7 @@ export class ReportsController {
   }
 
   @Patch('/:id')
+  @UseGuards(AdminGuard)
   async approveReport(
     @Param('id') id: string,
     @Body() body: ApprovedReportDto
