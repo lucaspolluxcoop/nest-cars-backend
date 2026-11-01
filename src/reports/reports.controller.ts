@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common'
+import { Body, Controller, Param, Patch, Post, UseGuards } from '@nestjs/common'
 import { CreateReportDto } from './dtos/create-report.dto'
 import { ReportsService } from './reports.service'
 import { AuthGuard } from '../guards/auth.guards'
@@ -6,6 +6,7 @@ import { currentUser } from '../users/decorators/current-user.decorators'
 import { User } from '../users/user.entity'
 import { ReportDto } from './dtos/report.dto'
 import { Serialize } from '../interceptors/serialize.interceptor'
+import { ApprovedReportDto } from './dtos/approved-report.dto'
 
 @UseGuards(AuthGuard)
 @Controller('reports')
@@ -18,5 +19,13 @@ export class ReportsController {
     const report = await this.reportsService.create(body, user)
 
     return report
+  }
+
+  @Patch('/:id')
+  async approveReport(
+    @Param('id') id: string,
+    @Body() body: ApprovedReportDto
+  ) {
+    return await this.reportsService.changeApproval(parseInt(id), body.approved)
   }
 }
