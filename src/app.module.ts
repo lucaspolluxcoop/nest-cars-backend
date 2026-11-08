@@ -22,7 +22,7 @@ import { Report } from './reports/report.entity'
         return {
           type: 'sqlite',
           database: config.get<string>('DB_NAME'),
-          synchronize: true,
+          synchronize: process.env.NODE_ENV === 'test',
           entities: [User, Report]
         }
       }
@@ -42,11 +42,13 @@ import { Report } from './reports/report.entity'
   ]
 })
 export class AppModule {
+  constructor(private configService: ConfigService) {}
+
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(
         cookieSession({
-          keys: ['lcs123']
+          keys: [this.configService.getOrThrow('COOKIE_KEY')]
         })
       )
       .forRoutes('*')
